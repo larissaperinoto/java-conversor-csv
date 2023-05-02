@@ -52,15 +52,7 @@ public class Conversor {
           if (conteudoLinha.contains("Nome")) {
             content = conteudoLinha;
           } else {
-            String nome = conteudoLinha.split(",")[0].toUpperCase();
-            String[] date = conteudoLinha.split(",")[1].split("/");
-            String dateFormater = date[2] + "-" + date[1] + "-" + date[0];
-            String email = conteudoLinha.split(",")[2];
-            String cpf = conteudoLinha.split(",")[3];
-            String cpfFormater = cpf.substring(0,3) + "." 
-                + cpf.substring(3,6) + "." + cpf.substring(6,9) + "-" + cpf.substring(9,11);
-            content = nome + "," + dateFormater + "," + email + "," + cpfFormater;
-            
+            content = formatarConteudo(conteudoLinha);
           }
           bufferedEscritor.write(content + "\n");
           bufferedEscritor.flush(); 
@@ -74,5 +66,23 @@ public class Conversor {
         bufferedEscritor.close();
       }
     }
+  }
+  
+  /**
+   * Realiza a transformação necessária em cada linha do arquivo.
+   * @param conteudo 
+   * Representa a leitura de uma linha do arquivo.
+   * @return 
+   * Conteúdo do arquivo transformado.
+   */
+  public String formatarConteudo(String conteudo) {
+    String nome = conteudo.split(",")[0].toUpperCase();
+    String[] date = conteudo.split(",")[1].split("/");
+    String dateFormater = date[2] + "-" + date[1] + "-" + date[0];
+    String email = conteudo.split(",")[2];
+    String cpf = conteudo.split(",")[3];
+    String cpfFormater = cpf.substring(0,3) + "." 
+        + cpf.substring(3,6) + "." + cpf.substring(6,9) + "-" + cpf.substring(9,11);
+    return nome + "," + dateFormater + "," + email + "," + cpfFormater;
   }
 }
