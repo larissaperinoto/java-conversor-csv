@@ -40,7 +40,7 @@ public class Conversor {
         FileReader leitorArquivo = new FileReader(f);
         BufferedReader bufferedLeitor = new BufferedReader(leitorArquivo);
         String conteudoLinha = bufferedLeitor.readLine();
-        File novoArquivo = new File("./" + pastaDeSaidas.getName() + File.separator + f.getName());
+        File novoArquivo = new File(pastaDeSaidas.getPath() + File.separator + f.getName());
         novoArquivo.createNewFile();
         
         FileWriter escritorArquivo = new FileWriter(novoArquivo);
@@ -48,7 +48,21 @@ public class Conversor {
         
         
         while (conteudoLinha != null) {
-          bufferedEscritor.write(conteudoLinha);
+          String content = null;
+          if (conteudoLinha.contains("Nome")) {
+            content = conteudoLinha;
+          } else {
+            String nome = conteudoLinha.split(",")[0].toUpperCase();
+            String[] date = conteudoLinha.split(",")[1].split("/");
+            String dateFormater = date[2] + "-" + date[1] + "-" + date[0];
+            String email = conteudoLinha.split(",")[2];
+            String cpf = conteudoLinha.split(",")[3];
+            String cpfFormater = cpf.substring(0,3) + "." 
+                + cpf.substring(3,6) + "." + cpf.substring(6,9) + "-" + cpf.substring(9,11);
+            content = nome + "," + dateFormater + "," + email + "," + cpfFormater;
+            
+          }
+          bufferedEscritor.write(content + "\n");
           bufferedEscritor.flush(); 
        
           conteudoLinha = bufferedLeitor.readLine();
